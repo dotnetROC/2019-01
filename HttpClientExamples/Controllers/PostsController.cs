@@ -17,14 +17,17 @@ namespace HttpClientExamples.Controllers
     public class PostsController : ControllerBase
     {
         private IConfiguration _configuracion;
-        private HttpClient _httpClient;
+        private static HttpClient _httpClient;
         public PostsController(IConfiguration configuration)
         {
             _configuracion = configuration;
 
-            _httpClient = new HttpClient() {
-                BaseAddress = new Uri(_configuracion["Typecode:BaseAddress"])
-            };
+            if (_httpClient == null)
+            {
+                _httpClient = new HttpClient() {
+                    BaseAddress = new Uri(_configuracion["Typecode:BaseAddress"])
+                };
+            }
         }
 
         [HttpGet]
